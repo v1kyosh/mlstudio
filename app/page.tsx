@@ -39,11 +39,18 @@ const WORK: WorkItem[] = [
       "In-house Supplier Relationship Management (SRM) platform, built via AI-assisted development - centralizes supplier onboarding, contracts, purchase orders, and risk scoring in one system instead of scattered spreadsheets.",
   },
   {
-    name: "MoreiraFloat",
-    tag: "Brand Identity",
-    image: "/work/moreirafloat.png",
+    name: "Conversion Growth Engine",
+    tag: "Ecommerce & CRO",
+    image: "/work/ecommerce-cro.png",
     blurb:
-      "Full identity system for a fishing-float maker - from first concept through signed final guidelines, including packaging, merch, and photography direction.",
+      "End-to-end e-commerce optimization platform tracking funnels, on-site conversion, and paid campaign performance in one dashboard - real-time visibility from visit to purchase.",
+  },
+  {
+    name: "Trade-Show Stand System",
+    tag: "Exhibition Design",
+    image: "/work/tradeshow-stand.png",
+    blurb:
+      "Modular exhibition stand design for industry trade fairs - structure, branded graphics, product display, and lighting planned as one system, built to be reused show after show.",
   },
   {
     name: "Polivouga",
@@ -65,20 +72,6 @@ const WORK: WorkItem[] = [
     image: "/work/universal-support.png",
     blurb:
       "Concept-to-pitch design for a modular bike-mount accessory system, iterated from an isolated hardware render into a full lifestyle deck.",
-  },
-  {
-    name: "MLStudio",
-    tag: "Independent Studio",
-    image: "/work/mlstudio.png",
-    blurb:
-      "Brand identity pitches run under my own studio, spanning aesthetic dentistry to hospitality clients.",
-  },
-  {
-    name: "Tensai",
-    tag: "Concept & Pitch",
-    image: "/work/tensai.png",
-    blurb:
-      "A self-directed brand and product concept built to pitch a consumer appliance brand - design as the pitch itself.",
   },
 ];
 
