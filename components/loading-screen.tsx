@@ -4,8 +4,9 @@ import { useEffect, useState, type CSSProperties } from "react";
 import Velaris from "@/components/ui/velaris";
 
 export const LOADING_DURATION_MS = 1000;
+export const LOADING_FADE_OUT_MS = 300;
 const DURATION_MS = LOADING_DURATION_MS;
-const FADE_OUT_MS = 300;
+const FADE_OUT_MS = LOADING_FADE_OUT_MS;
 
 const fillBox: CSSProperties = {
   transformBox: "fill-box",

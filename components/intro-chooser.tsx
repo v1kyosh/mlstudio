@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Velaris from "@/components/ui/velaris";
-import { LOADING_DURATION_MS } from "@/components/loading-screen";
+import {
+  LOADING_DURATION_MS,
+  LOADING_FADE_OUT_MS,
+} from "@/components/loading-screen";
+
+const GRAYSCALE_COLORS = ["#e5e5e5", "#a3a3a3", "#525252", "#000000"];
 
 export function IntroChooser() {
   const router = useRouter();
@@ -12,7 +17,13 @@ export function IntroChooser() {
   const [fadingOut, setFadingOut] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setReady(true), LOADING_DURATION_MS);
+    // Appear the moment the loading screen *starts* fading out, so this
+    // covers the page before any of the real content underneath is
+    // revealed through that fade.
+    const timer = setTimeout(
+      () => setReady(true),
+      LOADING_DURATION_MS - LOADING_FADE_OUT_MS,
+    );
     return () => clearTimeout(timer);
   }, []);
 
@@ -44,19 +55,17 @@ export function IntroChooser() {
   return (
     <div
       aria-hidden={!ready}
-      className={`fixed inset-0 z-[100] transition-opacity duration-[400ms] ${
+      className={`fixed inset-0 z-[100] flex flex-col transition-opacity duration-[400ms] sm:flex-row ${
         fadingOut ? "opacity-0" : "opacity-100"
       }`}
     >
-      <Velaris height="100%">
-        <div className="relative flex h-full w-full flex-col sm:flex-row">
-          <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px bg-white/15 sm:inset-y-0 sm:inset-x-auto sm:left-1/2 sm:top-0 sm:h-full sm:w-px" />
-
+      <div className="relative flex-1 border-b border-white/15 sm:border-b-0 sm:border-r">
+        <Velaris height="100%" colors={GRAYSCALE_COLORS}>
           <button
             type="button"
             onClick={goToSummary}
             data-cursor="Quick Summary"
-            className="group flex flex-1 flex-col items-center justify-center gap-3 px-8 py-16 text-center transition-colors hover:bg-white/5"
+            className="group flex h-full w-full flex-col items-center justify-center gap-3 px-8 py-16 text-center transition-colors hover:bg-white/5"
           >
             <span className="text-xs font-medium uppercase tracking-[0.2em] text-white/50">
               Short on time?
@@ -68,16 +77,20 @@ export function IntroChooser() {
               The 30-second version - who I am, what I do, and the numbers
               that matter.
             </p>
-            <span className="mt-2 text-sm font-medium text-green-400 opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="mt-2 text-sm font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
               Open Quick Summary &rarr;
             </span>
           </button>
+        </Velaris>
+      </div>
 
+      <div className="relative flex-1">
+        <Velaris height="100%">
           <button
             type="button"
             onClick={enterFullPortfolio}
             data-cursor="Full Portfolio"
-            className="group flex flex-1 flex-col items-center justify-center gap-3 px-8 py-16 text-center transition-colors hover:bg-white/5"
+            className="group flex h-full w-full flex-col items-center justify-center gap-3 px-8 py-16 text-center transition-colors hover:bg-white/5"
           >
             <span className="text-xs font-medium uppercase tracking-[0.2em] text-white/50">
               Got a few minutes?
@@ -93,8 +106,8 @@ export function IntroChooser() {
               Enter Full Portfolio &rarr;
             </span>
           </button>
-        </div>
-      </Velaris>
+        </Velaris>
+      </div>
     </div>
   );
 }
