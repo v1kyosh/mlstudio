@@ -1,0 +1,103 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { PROFILE } from "@/lib/resume-data";
+
+type Status = "idle" | "sending" | "sent" | "error";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      setStatus("sent");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="name" className="text-white/70">
+          Name
+        </Label>
+        <Input
+          id="name"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Your name"
+          className="border-white/20 bg-white/5 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-white/20"
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="email" className="text-white/70">
+          Email
+        </Label>
+        <Input
+          id="email"
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@company.com"
+          className="border-white/20 bg-white/5 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-white/20"
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="message" className="text-white/70">
+          Message
+        </Label>
+        <Textarea
+          id="message"
+          required
+          rows={5}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="What are you looking to build?"
+          className="border-white/20 bg-white/5 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-white/20"
+        />
+      </div>
+      <Button
+        type="submit"
+        disabled={status === "sending"}
+        className="mt-2 w-fit rounded-full bg-white px-6 text-black hover:bg-white/85 disabled:opacity-60"
+      >
+        {status === "sending" ? "Sending..." : "Send Message"}
+      </Button>
+      {status === "sent" && (
+        <p className="text-sm text-green-400">
+          Message sent - I&apos;ll get back to you soon.
+        </p>
+      )}
+      {status === "error" && (
+        <p className="text-sm text-white/70">
+          Something went wrong. Email me directly at{" "}
+          <a href={`mailto:${PROFILE.email}`} className="underline">
+            {PROFILE.email}
+          </a>
+          .
+        </p>
+      )}
+    </form>
+  );
+}
