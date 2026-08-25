@@ -37,19 +37,17 @@ export function LoadingScreen() {
   const [fadingOut, setFadingOut] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    // Scroll stays locked by IntroChooser for the whole gated period (this
+    // screen included) - not handled here, to avoid the two components
+    // fighting over document.body's lock state.
     const fadeTimer = setTimeout(
       () => setFadingOut(true),
       DURATION_MS - FADE_OUT_MS,
     );
-    const hideTimer = setTimeout(() => {
-      setVisible(false);
-      document.body.style.overflow = "";
-    }, DURATION_MS);
+    const hideTimer = setTimeout(() => setVisible(false), DURATION_MS);
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(hideTimer);
-      document.body.style.overflow = "";
     };
   }, []);
 

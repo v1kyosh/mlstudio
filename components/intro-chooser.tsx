@@ -28,26 +28,44 @@ export function IntroChooser() {
   }, []);
 
   useEffect(() => {
-    if (ready) document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
+    // Locks scroll for this component's whole lifetime (loading screen
+    // included, since this mounts alongside it) - position:fixed on body
+    // is used instead of just overflow:hidden because it can't be
+    // silently overridden by another component, and it also blocks
+    // touch/wheel scroll bleed-through on mobile that overflow alone
+    // sometimes misses.
+    const scrollY = window.scrollY;
+    const { style } = document.body;
+    const prev = {
+      position: style.position,
+      top: style.top,
+      width: style.width,
+      overflow: style.overflow,
     };
-  }, [ready]);
+    style.position = "fixed";
+    style.top = `-${scrollY}px`;
+    style.width = "100%";
+    style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      style.position = prev.position;
+      style.top = prev.top;
+      style.width = prev.width;
+      style.overflow = prev.overflow;
+      document.documentElement.style.overflow = "";
+      window.scrollTo(0, scrollY);
+    };
+  }, []);
 
   function enterFullPortfolio() {
     setFadingOut(true);
-    setTimeout(() => {
-      setDismissed(true);
-      document.body.style.overflow = "";
-    }, 400);
+    setTimeout(() => setDismissed(true), 400);
   }
 
   function goToSummary() {
     setFadingOut(true);
-    setTimeout(() => {
-      document.body.style.overflow = "";
-      router.push("/summary");
-    }, 300);
+    setTimeout(() => router.push("/summary"), 300);
   }
 
   if (!ready || dismissed) return null;
