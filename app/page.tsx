@@ -53,6 +53,13 @@ const WORK: WorkItem[] = [
       "Modular exhibition stand design for industry trade fairs - structure, branded graphics, product display, and lighting planned as one system, built to be reused show after show.",
   },
   {
+    name: "Point-of-Sale Display System",
+    tag: "Retail Design",
+    image: "/work/point-of-sale.png",
+    blurb:
+      "In-store display system for retail rollout - shelf units, counter displays, and wayfinding designed to keep the brand consistent from stand to shelf.",
+  },
+  {
     name: "Polivouga",
     tag: "Marketing Ecosystem",
     image: "/work/polivouga.png",
