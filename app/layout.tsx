@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import "./globals.css";
+
+const ChatWidget = dynamic(() =>
+  import("@/components/ui/chat-widget").then((m) => m.ChatWidget),
+);
+const ScrollToTop = dynamic(() =>
+  import("@/components/ui/scroll-to-top").then((m) => m.ScrollToTop),
+);
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,6 +60,8 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter />
+        <ChatWidget />
+        <ScrollToTop />
       </body>
     </html>
   );

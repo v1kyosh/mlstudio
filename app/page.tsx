@@ -1,13 +1,32 @@
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { TrendingUp, Gauge, PiggyBank, Wallet } from "lucide-react";
 import Velaris from "@/components/ui/velaris";
-import { LuminaInteractiveList } from "@/components/ui/lumina-interactive-list";
-import { SkillArchitecture } from "@/components/ui/skill-architecture";
+import { LoadingScreen } from "@/components/loading-screen";
 import { SkillHub } from "@/components/ui/skill-hub";
 import { AiToolkit } from "@/components/ui/ai-toolkit";
 import { SoftwareStack } from "@/components/ui/software-stack";
-import { ContactForm } from "@/components/ui/contact-form";
 import { EXPERIENCE, PROFILE } from "@/lib/resume-data";
+
+const CookieConsent = dynamic(() =>
+  import("@/components/ui/cookie-consent").then((m) => m.CookieConsent),
+);
+
+// code-split the heavy client components so their JS only loads once each
+// section is reached, instead of bloating the initial page bundle
+const LuminaInteractiveList = dynamic(() =>
+  import("@/components/ui/lumina-interactive-list").then(
+    (m) => m.LuminaInteractiveList,
+  ),
+);
+const SkillArchitecture = dynamic(() =>
+  import("@/components/ui/skill-architecture").then(
+    (m) => m.SkillArchitecture,
+  ),
+);
+const ContactForm = dynamic(() =>
+  import("@/components/ui/contact-form").then((m) => m.ContactForm),
+);
 
 interface WorkItem {
   name: string;
@@ -84,8 +103,9 @@ const WORK: WorkItem[] = [
 
 const STATS = [
   { value: "13+", label: "Years of Experience" },
-  { value: "10+", label: "Projects Delivered" },
+  { value: "50+", label: "Projects Delivered" },
   { value: "5", label: "Industries" },
+  { value: "€370k", label: "Saved via In-House AI Tools" },
 ];
 
 // gallery components are Client Components - only pass plain, serializable
@@ -110,23 +130,29 @@ const ROLE_PROGRESSION = [
 const IMPACT = [
   {
     icon: TrendingUp,
-    value: "3x",
-    label: "Communication & sales output growth",
+    value: "4x",
+    label:
+      "Communication & sales output growth from the right platforms and AI agents",
+    spark: "M0 20 L15 17 L30 18 L45 12 L60 14 L75 6 L100 3",
   },
   {
     icon: Gauge,
     value: "80%",
     label: "Less repetitive work across 6 automated department workflows",
+    spark: "M0 18 L15 19 L30 14 L45 15 L60 8 L75 9 L100 2",
   },
   {
     icon: PiggyBank,
-    value: "€124k",
-    label: "Saved in setup cost building the PIM + DAM platform in-house",
+    value: "€370k",
+    label:
+      "Saved in setup cost across the PIM, DAM, Ticketing, SAT & SRM suite",
+    spark: "M0 16 L15 12 L30 15 L45 9 L60 11 L75 5 L100 4",
   },
   {
     icon: Wallet,
-    value: "€12k",
+    value: "€67k",
     label: "Saved every year versus buying a SaaS equivalent",
+    spark: "M0 19 L15 15 L30 16 L45 11 L60 13 L75 7 L100 5",
   },
 ];
 
@@ -164,6 +190,8 @@ const CLUBS = [
 export default function Home() {
   return (
     <div className="flex flex-col">
+      <LoadingScreen />
+      <CookieConsent />
       <Velaris height="100vh">
         <div className="mx-auto flex h-full w-full max-w-5xl flex-col justify-center gap-6 px-6 pb-16 pt-24">
           <div className="flex items-center gap-3">
@@ -212,7 +240,7 @@ export default function Home() {
               Get in Touch
             </a>
           </div>
-          <div className="mt-10 flex gap-10 border-t border-white/15 pt-8">
+          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-6 border-t border-white/15 pt-8 sm:gap-x-10">
             {STATS.map((stat) => (
               <div key={stat.label}>
                 <div className="text-3xl font-semibold tracking-tight text-green-400">
@@ -363,13 +391,30 @@ export default function Home() {
               >
                 <div className="card-glow pointer-events-none absolute inset-0 z-0" />
                 <div className="relative z-10">
-                  <stat.icon className="h-5 w-5 text-muted-foreground" />
-                  <div className="mt-4 text-4xl font-semibold tracking-tight text-green-400">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-400/10">
+                    <stat.icon className="h-4 w-4 text-green-400" />
+                  </div>
+                  <div className="mt-4 text-4xl font-semibold tracking-tight text-foreground">
                     {stat.value}
                   </div>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {stat.label}
                   </p>
+                  <svg
+                    viewBox="0 0 100 24"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                    className="mt-4 h-6 w-full text-green-400/40"
+                  >
+                    <path
+                      d={stat.spark}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </div>
               </div>
             ))}

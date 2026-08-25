@@ -39,8 +39,14 @@ export function SiteFooter() {
           Connect on LinkedIn
         </a>
       </div>
-      <div className="mx-auto mt-8 max-w-5xl border-t border-border pt-6 text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Marcos Leite. All rights reserved.
+      <div className="mx-auto mt-8 flex max-w-5xl flex-wrap items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground">
+        <span>© {new Date().getFullYear()} Marcos Leite. All rights reserved.</span>
+        <a
+          href="/privacy"
+          className="transition-colors hover:text-foreground"
+        >
+          Privacy &amp; Cookies Policy
+        </a>
       </div>
     </footer>
   );

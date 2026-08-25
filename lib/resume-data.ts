@@ -16,7 +16,7 @@ export const EXPERIENCE: ExperienceItem[] = [
       "Manage the e-commerce platform and digital sales strategy, increasing conversions and optimizing user experience.",
       "Own the full product creation cycle for small home appliances - trend research, design, prototyping, packaging, and launch - producing 3D models and renders for marketing.",
       "Plan 360-degree integrated campaigns across digital, social, retail, and brand activations, coordinating multidisciplinary teams and external partners (manufacturers, agencies, studios).",
-      "Identified and automated 6 repetitive workflows across departments by building internal platforms with AI-assisted development (Claude, React, Node.js, Python) - including a PIM + DAM system saving an estimated €124k in setup and €12k/year versus a SaaS alternative, plus a companion SRM tool - cutting repetitive work 80%.",
+      "Identified and automated 6 repetitive workflows across departments by building internal platforms with AI-assisted development (Claude, React, Node.js, Python) - including a PIM, DAM, ticketing, repairs (SAT), and SRM suite saving an estimated €370k in setup and €67k/year versus SaaS alternatives - cutting repetitive work 80%.",
     ],
     accent: "from-emerald-500/25 via-emerald-500/5 to-transparent",
   },
