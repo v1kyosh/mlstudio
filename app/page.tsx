@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { TrendingUp, Gauge, PiggyBank, Wallet } from "lucide-react";
 import Velaris from "@/components/ui/velaris";
 import { LoadingScreen } from "@/components/loading-screen";
+import { IntroChooser } from "@/components/intro-chooser";
 import { SkillHub } from "@/components/ui/skill-hub";
 import { AiToolkit } from "@/components/ui/ai-toolkit";
 import { SoftwareStack } from "@/components/ui/software-stack";
@@ -191,6 +192,7 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <LoadingScreen />
+      <IntroChooser />
       <CookieConsent />
       <Velaris height="100vh">
         <div className="mx-auto flex h-full w-full max-w-5xl flex-col justify-center gap-6 px-6 pb-16 pt-24">

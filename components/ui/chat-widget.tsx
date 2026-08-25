@@ -75,6 +75,9 @@ const GREETING: Message = {
   text: "Hi, I'm Marcos's assistant. Ask me about his work, skills, or how to get in touch.",
 };
 
+const TLDR_ANSWER =
+  "13+ years running brand, product, and growth as one system - not three separate hires. Most recently: built an in-house AI platform suite (PIM, DAM, SRM, repairs, ticketing) with Claude and AI agents instead of buying SaaS, saving an estimated €370k in setup and €67k/year. Hire him if you want someone who can set the strategy, design the brand, and ship the software behind it - without three handoffs in between.";
+
 function findAnswer(input: string): string {
   const q = input.toLowerCase();
   const hit = FAQ.find((entry) => entry.keywords.some((k) => q.includes(k)));
@@ -92,23 +95,28 @@ export function ChatWidget() {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
   }, [messages, typing]);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const question = input.trim();
-    if (!question) return;
+  function ask(question: string, answer: string) {
     setMessages((prev) => [...prev, { role: "user", text: question }]);
-    setInput("");
     setTyping(true);
     setTimeout(
       () => {
-        setMessages((prev) => [
-          ...prev,
-          { role: "bot", text: findAnswer(question) },
-        ]);
+        setMessages((prev) => [...prev, { role: "bot", text: answer }]);
         setTyping(false);
       },
       500 + Math.min(question.length * 15, 800),
     );
+  }
+
+  function handleTldr() {
+    ask("TL;DR", TLDR_ANSWER);
+  }
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const question = input.trim();
+    if (!question) return;
+    setInput("");
+    ask(question, findAnswer(question));
   }
 
   return (
@@ -162,6 +170,15 @@ export function ChatWidget() {
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground" />
                 </div>
               </div>
+            )}
+            {messages.length === 1 && !typing && (
+              <button
+                type="button"
+                onClick={handleTldr}
+                className="rounded-full border border-green-400/40 px-3.5 py-1.5 text-xs font-medium text-green-400 transition-colors hover:bg-green-400/10"
+              >
+                TL;DR - too lazy to read?
+              </button>
             )}
           </div>
 

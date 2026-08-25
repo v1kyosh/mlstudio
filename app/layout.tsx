@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const ChatWidget = dynamic(() =>
@@ -29,6 +30,7 @@ const SITE_DESCRIPTION =
   "Brand strategy, product design, and the AI-driven growth systems that sell them.";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   openGraph: {

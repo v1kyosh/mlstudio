@@ -3,8 +3,9 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import Velaris from "@/components/ui/velaris";
 
-const DURATION_MS = 1500;
-const FADE_OUT_MS = 350;
+export const LOADING_DURATION_MS = 1000;
+const DURATION_MS = LOADING_DURATION_MS;
+const FADE_OUT_MS = 300;
 
 const fillBox: CSSProperties = {
   transformBox: "fill-box",
@@ -13,10 +14,10 @@ const fillBox: CSSProperties = {
 
 function letterStyle(index: number): CSSProperties {
   const keyframe = index % 2 === 0 ? "ls-letter-a" : "ls-letter-b";
-  const delay = index * 0.045;
+  const delay = index * 0.02;
   return {
     ...fillBox,
-    animation: `${keyframe} 0.4s ease-out ${delay}s both`,
+    animation: `${keyframe} 0.2s ease-out ${delay}s both`,
   };
 }
 
@@ -84,7 +85,7 @@ export function LoadingScreen() {
               style={{
                 transformBox: "fill-box",
                 transformOrigin: "0% 50%",
-                animation: "ls-slash 0.3s ease-out 0.32s both",
+                animation: "ls-slash 0.15s ease-out 0.16s both",
               }}
             />
             <path
@@ -93,7 +94,7 @@ export function LoadingScreen() {
               style={{
                 ...fillBox,
                 animation:
-                  "ls-dot-appear 0.15s ease-out 0.5s both, ls-dot-blink 0.35s ease-in-out 0.65s infinite",
+                  "ls-dot-appear 0.08s ease-out 0.25s both, ls-dot-blink 0.18s ease-in-out 0.33s infinite",
               }}
             />
           </svg>
