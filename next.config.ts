@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // "standalone" is only for the Docker/self-hosted build (see Dockerfile).
+  // Vercel has its own optimized build output and this mode conflicts with
+  // its file-tracing step, so skip it when building on Vercel.
+  ...(process.env.VERCEL ? {} : { output: "standalone" as const }),
   images: {
     // sharp's native postinstall script didn't run in this environment,
     // making the built-in optimizer unreliable for local images.
