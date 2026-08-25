@@ -133,16 +133,16 @@ const fragmentShader = `
   }
 `;
 
-function splitText(text: string) {
-  return text
-    .split("")
-    .map(
-      (char) =>
-        `<span style="display: inline-block; opacity: 0;">${
-          char === " " ? "&nbsp;" : char
-        }</span>`,
-    )
-    .join("");
+function renderLetters(container: HTMLElement, text: string) {
+  container.replaceChildren(
+    ...text.split("").map((char) => {
+      const span = document.createElement("span");
+      span.style.display = "inline-block";
+      span.style.opacity = "0";
+      span.textContent = char === " " ? " " : char;
+      return span;
+    }),
+  );
 }
 
 export function LuminaInteractiveList({ items }: { items: LuminaSlide[] }) {
@@ -246,7 +246,7 @@ export function LuminaInteractiveList({ items }: { items: LuminaSlide[] }) {
 
       setTimeout(() => {
         if (disposed) return;
-        titleEl.innerHTML = splitText(items[idx].name);
+        renderLetters(titleEl, items[idx].name);
         descEl.textContent = items[idx].blurb;
 
         gsap.set(titleEl.children, { opacity: 0 });
@@ -401,7 +401,17 @@ export function LuminaInteractiveList({ items }: { items: LuminaSlide[] }) {
         el.className = `${styles.slideNavItem}${i === 0 ? " " + styles.active : ""}`;
         el.setAttribute("aria-label", `Show project: ${item.name}`);
         if (i === 0) el.setAttribute("aria-current", "true");
-        el.innerHTML = `<span class="${styles.slideProgressLine}"><span class="${styles.slideProgressFill}"></span></span><span class="${styles.slideNavTitle}">${item.name}</span>`;
+        const progressLine = document.createElement("span");
+        progressLine.className = styles.slideProgressLine;
+        const progressFill = document.createElement("span");
+        progressFill.className = styles.slideProgressFill;
+        progressLine.appendChild(progressFill);
+
+        const navTitle = document.createElement("span");
+        navTitle.className = styles.slideNavTitle;
+        navTitle.textContent = item.name;
+
+        el.append(progressLine, navTitle);
         const go = () => {
           if (!isTransitioning && i !== currentSlideIndex) {
             stopAutoSlideTimer();
@@ -514,7 +524,7 @@ export function LuminaInteractiveList({ items }: { items: LuminaSlide[] }) {
     const titleEl = q<HTMLElement>("#luminaTitle");
     const descEl = q<HTMLElement>("#luminaDesc");
     if (titleEl && descEl) {
-      titleEl.innerHTML = splitText(items[0].name);
+      renderLetters(titleEl, items[0].name);
       descEl.textContent = items[0].blurb;
       gsap.fromTo(
         titleEl.children,

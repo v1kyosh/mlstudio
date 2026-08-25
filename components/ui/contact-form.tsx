@@ -14,6 +14,7 @@ export function ContactForm() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -24,12 +25,16 @@ export function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, message }),
       });
-      if (!res.ok) throw new Error("Request failed");
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || "Request failed");
+      }
       setStatus("sent");
       setName("");
       setEmail("");
       setMessage("");
-    } catch {
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : "");
       setStatus("error");
     }
   }
@@ -43,6 +48,7 @@ export function ContactForm() {
         <Input
           id="name"
           required
+          maxLength={200}
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your name"
@@ -70,6 +76,7 @@ export function ContactForm() {
         <Textarea
           id="message"
           required
+          maxLength={5000}
           rows={5}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -91,7 +98,7 @@ export function ContactForm() {
       )}
       {status === "error" && (
         <p className="text-sm text-white/70">
-          Something went wrong. Email me directly at{" "}
+          {errorMessage || "Something went wrong."} Email me directly at{" "}
           <a href={`mailto:${PROFILE.email}`} className="underline">
             {PROFILE.email}
           </a>
