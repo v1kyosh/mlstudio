@@ -70,14 +70,13 @@ export default function SummaryPage() {
           >
             Get in Touch
           </a>
+          <a
+            href="/"
+            className="rounded-full bg-green-400 px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-green-400/85"
+          >
+            View Full Portfolio
+          </a>
         </div>
-
-        <a
-          href="/"
-          className="mt-10 text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
-        >
-          Want the full story? See the complete portfolio &rarr;
-        </a>
       </div>
     </main>
   );
