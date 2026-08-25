@@ -84,6 +84,13 @@ export function ContactForm() {
           className="border-white/20 bg-white/5 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-white/20"
         />
       </div>
+      <p className="text-xs text-white/50">
+        By submitting this form, you agree to the{" "}
+        <a href="/privacy" className="underline hover:text-white/70">
+          Privacy &amp; Cookies Policy
+        </a>
+        .
+      </p>
       <Button
         type="submit"
         disabled={status === "sending"}

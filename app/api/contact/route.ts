@@ -6,6 +6,58 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_NAME_LEN = 200;
 const MAX_MESSAGE_LEN = 5000;
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function buildEmailHtml({
+  name,
+  email,
+  message,
+}: {
+  name: string;
+  email: string;
+  message: string;
+}): string {
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeMessage = escapeHtml(message).replace(/\n/g, "<br />");
+
+  return `<!doctype html>
+<html>
+  <body style="margin:0;padding:0;background:#0a0a0a;">
+    <div style="background:#0a0a0a;padding:32px 16px;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;margin:0 auto;border-collapse:collapse;border:1px solid #262626;border-radius:12px;overflow:hidden;">
+        <tr>
+          <td style="padding:22px 28px;background:#111111;border-bottom:1px solid #262626;">
+            <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#4ade80;font-weight:600;">Marcos Leite</span>
+            <div style="font-size:12px;color:#8a8a8a;margin-top:2px;">Portfolio contact form</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:28px;background:#0f0f0f;">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#8a8a8a;margin-bottom:4px;">From</div>
+            <div style="font-size:15px;color:#ffffff;margin-bottom:22px;">${safeName} &lt;${safeEmail}&gt;</div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#8a8a8a;margin-bottom:8px;">Message</div>
+            <div style="font-size:14px;line-height:1.6;color:#e5e5e5;">${safeMessage}</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:16px 28px;background:#111111;border-top:1px solid #262626;">
+            <div style="font-size:11px;line-height:1.5;color:#6a6a6a;">Sent from the contact form on your portfolio site. Reply directly to this email to respond to ${safeName}.</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>`;
+}
+
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX = 3;
 const hits = new Map<string, number[]>();
@@ -83,6 +135,7 @@ export async function POST(request: Request) {
     replyTo: email,
     subject: `Portfolio inquiry from ${name}`,
     text: `${message}\n\n- ${name} (${email})`,
+    html: buildEmailHtml({ name, email, message }),
   });
 
   if (error) {
