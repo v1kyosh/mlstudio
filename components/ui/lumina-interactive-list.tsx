@@ -185,12 +185,18 @@ export function LuminaInteractiveList({ items }: { items: LuminaSlide[] }) {
       }
     };
 
-    const updateNavigationState = (idx: number) =>
+    const updateNavigationState = (idx: number) => {
       qa(`.${styles.slideNavItem}`).forEach((el, i) => {
         el.classList.toggle(styles.active, i === idx);
         if (i === idx) el.setAttribute("aria-current", "true");
         else el.removeAttribute("aria-current");
       });
+      qa(`.${styles.slideDotItem}`).forEach((el, i) => {
+        el.classList.toggle(styles.active, i === idx);
+        if (i === idx) el.setAttribute("aria-current", "true");
+        else el.removeAttribute("aria-current");
+      });
+    };
     const updateSlideProgress = (idx: number, prog: number) => {
       const el = qa<HTMLElement>(`.${styles.slideNavItem}`)[idx]?.querySelector<HTMLElement>(
         `.${styles.slideProgressFill}`,
@@ -427,6 +433,28 @@ export function LuminaInteractiveList({ items }: { items: LuminaSlide[] }) {
       });
     };
 
+    const createMobileDots = () => {
+      const dots = q<HTMLElement>("#luminaMobileDots");
+      if (!dots) return;
+      dots.innerHTML = "";
+      items.forEach((item, i) => {
+        const el = document.createElement("button");
+        el.type = "button";
+        el.className = `${styles.slideDotItem}${i === 0 ? " " + styles.active : ""}`;
+        el.setAttribute("aria-label", `Show project: ${item.name}`);
+        if (i === 0) el.setAttribute("aria-current", "true");
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (!isTransitioning && i !== currentSlideIndex) {
+            stopAutoSlideTimer();
+            quickResetProgress(currentSlideIndex);
+            navigateToSlide(i);
+          }
+        });
+        dots.appendChild(el);
+      });
+    };
+
     const loadImageTexture = (src: string) =>
       new Promise<THREE.Texture>((resolve, reject) => {
         const loader = new THREE.TextureLoader();
@@ -519,6 +547,7 @@ export function LuminaInteractiveList({ items }: { items: LuminaSlide[] }) {
     };
 
     createSlidesNavigation();
+    createMobileDots();
     updateCounter(0);
 
     const titleEl = q<HTMLElement>("#luminaTitle");
@@ -585,6 +614,11 @@ export function LuminaInteractiveList({ items }: { items: LuminaSlide[] }) {
         id="luminaSlidesNav"
         aria-label="Select project"
         className={styles.slidesNavigation}
+      />
+      <nav
+        id="luminaMobileDots"
+        aria-label="Select project"
+        className={styles.mobileDots}
       />
     </div>
   );

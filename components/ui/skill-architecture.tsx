@@ -242,9 +242,9 @@ export function SkillArchitecture() {
   }
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border bg-card/50 p-6 font-mono text-sm sm:p-8">
+    <div className="rounded-2xl border border-border bg-card/50 p-6 font-mono text-sm sm:overflow-x-auto sm:p-8">
       <div className="mb-8 max-w-2xl">
-        <div className="whitespace-nowrap text-xs text-muted-foreground/50">
+        <div className="text-xs text-muted-foreground/50 sm:whitespace-nowrap">
           // marcos-leite/full-stack-marketer/README.md
         </div>
         <p className="mt-3 text-sm leading-relaxed text-foreground/70">
@@ -259,7 +259,7 @@ export function SkillArchitecture() {
           const isOpen = openFolders.includes(folder.name);
           const isPulsing = pulseIndex === index;
           return (
-            <div key={folder.name} className="min-w-max">
+            <div key={folder.name} className="sm:min-w-max">
               <button
                 type="button"
                 onClick={() => toggleFolder(folder.name)}
@@ -278,7 +278,9 @@ export function SkillArchitecture() {
                   }`}
                 />
                 <span className="font-semibold text-foreground">{folder.name}</span>
-                <span className="text-muted-foreground/50">// {folder.note}</span>
+                <span className="hidden text-muted-foreground/50 sm:inline">
+                  // {folder.note}
+                </span>
               </button>
               <AnimatePresence initial={false}>
                 {isOpen && (
@@ -295,14 +297,18 @@ export function SkillArchitecture() {
                           <div className="flex items-baseline gap-2">
                             <FileCode2 className="relative top-0.5 h-3.5 w-3.5 flex-none text-muted-foreground/60" />
                             <span className="text-foreground/90">{file.name}</span>
-                            <span className="text-muted-foreground/50">// {file.note}</span>
+                            <span className="hidden text-muted-foreground/50 sm:inline">
+                              // {file.note}
+                            </span>
                           </div>
                           <div className="mt-1 flex flex-col gap-1 border-l border-border/60 pl-5">
                             {file.subitems.map((sub) => (
                               <div key={sub.name} className="flex items-baseline gap-2">
                                 <span className="text-muted-foreground/40">-</span>
                                 <span className="text-foreground/60">{sub.name}</span>
-                                <span className="text-muted-foreground/40">// {sub.note}</span>
+                                <span className="hidden text-muted-foreground/40 sm:inline">
+                                  // {sub.note}
+                                </span>
                               </div>
                             ))}
                           </div>

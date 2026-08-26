@@ -198,7 +198,7 @@ const Velaris = ({
     <div
       ref={containerRef}
       id={id}
-      style={{ height }}
+      style={{ minHeight: height }}
       className={cn("relative w-full overflow-hidden", className)}
     >
       <canvas
