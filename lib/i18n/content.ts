@@ -337,7 +337,7 @@ export const architectureNotes = {
     ),
     segmentation: tr(
       "targeting messages by real behavior, not guesswork",
-      "direcionar mensagens por comportamento real, não achismo",
+      "direcionar mensagens por comportamento real, não por suposições",
       "dirigir mensajes por comportamiento real, no suposiciones",
     ),
     "catalog-management": tr(
@@ -432,9 +432,9 @@ interface WorkTranslation {
 export const workTranslations: Record<string, WorkTranslation> = {
   "/work/pim-dam.png": {
     name: tr(
-      "In-House PIM + DAM Platform",
-      "Plataforma Interna PIM + DAM",
-      "Plataforma Interna PIM + DAM",
+      "PIM + DAM Platform",
+      "Plataforma PIM + DAM",
+      "Plataforma PIM + DAM",
     ),
     tag: tr(
       "Internal AI Platform",
@@ -450,8 +450,8 @@ export const workTranslations: Record<string, WorkTranslation> = {
   "/work/sat.png": {
     name: tr(
       "SAT Repair Platform",
-      "Plataforma de Reparações SAT",
-      "Plataforma de Reparaciones SAT",
+      "Reparações SAT",
+      "Reparaciones SAT",
     ),
     tag: tr(
       "Internal AI Platform",
@@ -466,9 +466,9 @@ export const workTranslations: Record<string, WorkTranslation> = {
   },
   "/work/srm.png": {
     name: tr(
-      "In-House SRM Platform",
-      "Plataforma Interna SRM",
-      "Plataforma Interna SRM",
+      "SRM Platform",
+      "Plataforma SRM",
+      "Plataforma SRM",
     ),
     tag: tr(
       "Internal AI Platform",
@@ -483,9 +483,9 @@ export const workTranslations: Record<string, WorkTranslation> = {
   },
   "/work/ecommerce-cro.png": {
     name: tr(
-      "Conversion Growth Engine",
-      "Motor de Crescimento de Conversão",
-      "Motor de Crecimiento de Conversión",
+      "Conversion Engine",
+      "Motor de Conversão",
+      "Motor de Conversión",
     ),
     tag: tr("Ecommerce & CRO", "Ecommerce & CRO", "Ecommerce y CRO"),
     blurb: tr(
@@ -496,9 +496,9 @@ export const workTranslations: Record<string, WorkTranslation> = {
   },
   "/work/tradeshow-stand.png": {
     name: tr(
-      "Trade-Show Stand System",
-      "Sistema de Stand para Feiras",
-      "Sistema de Stand para Ferias",
+      "Trade-Show Stand",
+      "Stand para Feiras",
+      "Stand para Ferias",
     ),
     tag: tr("Exhibition Design", "Design de Exposição", "Diseño de Exposición"),
     blurb: tr(
@@ -509,9 +509,9 @@ export const workTranslations: Record<string, WorkTranslation> = {
   },
   "/work/point-of-sale.png": {
     name: tr(
-      "Point-of-Sale Display System",
-      "Sistema de Display para Ponto de Venda",
-      "Sistema de Display para Punto de Venta",
+      "Point-of-Sale Display",
+      "Display de Ponto de Venda",
+      "Display de Punto de Venta",
     ),
     tag: tr("Retail Design", "Design de Retalho", "Diseño de Retail"),
     blurb: tr(
@@ -535,9 +535,9 @@ export const workTranslations: Record<string, WorkTranslation> = {
   },
   "/work/yamaha.png": {
     name: tr(
-      "Yamaha Racing Sports Bottles",
-      "Garrafas Desportivas Yamaha Racing",
-      "Botellas Deportivas Yamaha Racing",
+      "Yamaha Racing Bottles",
+      "Garrafas Yamaha Racing",
+      "Botellas Yamaha Racing",
     ),
     tag: tr("Product Design", "Design de Produto", "Diseño de Producto"),
     blurb: tr(
