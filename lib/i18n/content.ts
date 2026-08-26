@@ -21,6 +21,11 @@ export const architectureNotes = {
       "identidade, produto, e motion",
       "identidad, producto, y motion",
     ),
+    "3d-render/": tr(
+      "physical form, from sketch to manufacturing spec",
+      "forma física, do esboço à ficha técnica de fabrico",
+      "forma física, del boceto a la ficha técnica de fabricación",
+    ),
     "marketing/": tr(
       "campaigns that move product",
       "campanhas que vendem produto",
@@ -77,6 +82,26 @@ export const architectureNotes = {
       "video and animated brand assets",
       "vídeo e assets de marca animados",
       "vídeo y assets de marca animados",
+    ),
+    "cad-modeling.ts": tr(
+      "parametric 3D models built for manufacturing",
+      "modelos 3D paramétricos construídos para fabrico",
+      "modelos 3D paramétricos construidos para fabricación",
+    ),
+    "rendering-pipeline.ts": tr(
+      "photoreal renders for pitch, packaging, and production",
+      "renders fotorrealistas para pitch, embalagem, e produção",
+      "renders fotorrealistas para pitch, envase, y producción",
+    ),
+    "prototyping.ts": tr(
+      "physical and digital validation before tooling",
+      "validação física e digital antes da ferramenta de produção",
+      "validación física y digital antes de la herramienta de producción",
+    ),
+    "manufacturing-handoff.ts": tr(
+      "translating a finished model into what a factory can build",
+      "traduzir um modelo finalizado no que uma fábrica consegue produzir",
+      "traducir un modelo terminado en lo que una fábrica puede producir",
     ),
     "campaign-strategy.ts": tr(
       "360-degree campaigns across digital, social, and retail",
@@ -145,6 +170,46 @@ export const architectureNotes = {
     ),
   },
   subitems: {
+    "parametric-design": tr(
+      "building geometry that updates cleanly with every revision",
+      "construir geometria que atualiza de forma limpa a cada revisão",
+      "construir geometría que se actualiza de forma limpia en cada revisión",
+    ),
+    "tolerance-engineering": tr(
+      "designing parts that actually fit and assemble",
+      "desenhar peças que realmente encaixam e montam",
+      "diseñar piezas que realmente encajan y ensamblan",
+    ),
+    "material-studies": tr(
+      "testing finish and material before a unit is tooled",
+      "testar acabamento e material antes de haver ferramenta",
+      "probar acabado y material antes de haber herramienta",
+    ),
+    "lifestyle-renders": tr(
+      "product shots without booking a photo shoot",
+      "fotos de produto sem marcar uma sessão fotográfica",
+      "fotos de producto sin reservar una sesión fotográfica",
+    ),
+    "rapid-iteration": tr(
+      "3D-printed passes to catch problems while they're cheap",
+      "iterações impressas em 3D para apanhar problemas enquanto são baratos",
+      "iteraciones impresas en 3D para detectar problemas mientras son baratos",
+    ),
+    "design-reviews": tr(
+      "stress-testing form and function before sign-off",
+      "testar forma e função ao limite antes da aprovação final",
+      "poner a prueba forma y función antes de la aprobación final",
+    ),
+    "spec-sheets": tr(
+      "documenting dimensions, materials, and finishes for suppliers",
+      "documentar dimensões, materiais, e acabamentos para fornecedores",
+      "documentar dimensiones, materiales, y acabados para proveedores",
+    ),
+    "supplier-liaison": tr(
+      "working directly with manufacturers to get it right",
+      "trabalhar diretamente com fabricantes para garantir que sai bem",
+      "trabajar directamente con fabricantes para asegurar que sale bien",
+    ),
     "competitive-mapping": tr(
       "sizing up category leaders and finding white space",
       "avaliar os líderes da categoria e encontrar espaço livre",

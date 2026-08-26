@@ -8,6 +8,7 @@ import {
   Sparkles,
   Workflow,
   Palette,
+  Box,
   type LucideIcon,
 } from "lucide-react";
 import { useLocale } from "@/lib/i18n/context";
@@ -25,11 +26,12 @@ export function SkillHub() {
 
   const NODES: HubNode[] = [
     { label: skillHub.strategy[locale], icon: Target, x: 50, y: 8 },
-    { label: skillHub.marketing[locale], icon: Megaphone, x: 86.4, y: 29 },
-    { label: skillHub.ecommerce[locale], icon: ShoppingCart, x: 86.4, y: 71 },
-    { label: skillHub.aiSystems[locale], icon: Sparkles, x: 50, y: 92 },
-    { label: skillHub.automation[locale], icon: Workflow, x: 13.6, y: 71 },
-    { label: skillHub.brandDesign[locale], icon: Palette, x: 13.6, y: 29 },
+    { label: skillHub.marketing[locale], icon: Megaphone, x: 82.8, y: 23.8 },
+    { label: skillHub.ecommerce[locale], icon: ShoppingCart, x: 91, y: 59.4 },
+    { label: skillHub.aiSystems[locale], icon: Sparkles, x: 68.2, y: 87.8 },
+    { label: skillHub.automation[locale], icon: Workflow, x: 31.8, y: 87.8 },
+    { label: skillHub.brandDesign[locale], icon: Palette, x: 9, y: 59.4 },
+    { label: skillHub.product3d[locale], icon: Box, x: 17.2, y: 23.8 },
   ];
 
   return (

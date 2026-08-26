@@ -102,9 +102,9 @@ export const about = {
     "Marca y Creatividad",
   ),
   pillar1Desc: tr(
-    "Positioning, creative direction, and identity systems - from first concept to signed guidelines.",
-    "Posicionamento, direção criativa, e sistemas de identidade - do primeiro conceito até às guidelines finais aprovadas.",
-    "Posicionamiento, dirección creativa, y sistemas de identidad - desde el primer concepto hasta las guías finales aprobadas.",
+    "Creative direction, positioning, and identity systems - the full creative function, from first concept to signed guidelines.",
+    "Direção criativa, posicionamento, e sistemas de identidade - a função criativa completa, do primeiro conceito até às guidelines finais aprovadas.",
+    "Dirección creativa, posicionamiento, y sistemas de identidad - la función creativa completa, desde el primer concepto hasta las guías finales aprobadas.",
   ),
   pillar2Label: tr(
     "Growth & Ecommerce",
@@ -171,6 +171,7 @@ export const skillHub = {
   aiSystems: tr("AI Systems", "Sistemas de IA", "Sistemas de IA"),
   automation: tr("Automation", "Automação", "Automatización"),
   brandDesign: tr("Brand & Design", "Marca & Design", "Marca y Diseño"),
+  product3d: tr("3D & Render", "3D & Render", "3D & Render"),
 };
 
 export const impact = {

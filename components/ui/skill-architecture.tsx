@@ -65,6 +65,27 @@ const ARCHITECTURE: ArchFolder[] = [
     ],
   },
   {
+    name: "3d-render/",
+    files: [
+      {
+        name: "cad-modeling.ts",
+        subitems: [{ name: "parametric-design" }, { name: "tolerance-engineering" }],
+      },
+      {
+        name: "rendering-pipeline.ts",
+        subitems: [{ name: "material-studies" }, { name: "lifestyle-renders" }],
+      },
+      {
+        name: "prototyping.ts",
+        subitems: [{ name: "rapid-iteration" }, { name: "design-reviews" }],
+      },
+      {
+        name: "manufacturing-handoff.ts",
+        subitems: [{ name: "spec-sheets" }, { name: "supplier-liaison" }],
+      },
+    ],
+  },
+  {
     name: "marketing/",
     files: [
       {
