@@ -28,12 +28,20 @@ export function IntroChooser() {
   }, []);
 
   useEffect(() => {
-    // Locks scroll for this component's whole lifetime (loading screen
-    // included, since this mounts alongside it) - position:fixed on body
-    // is used instead of just overflow:hidden because it can't be
-    // silently overridden by another component, and it also blocks
-    // touch/wheel scroll bleed-through on mobile that overflow alone
-    // sometimes misses.
+    // Locks scroll from mount until the user picks "Full Portfolio"
+    // (dismissed) - position:fixed on body is used instead of just
+    // overflow:hidden because it can't be silently overridden by another
+    // component, and it also blocks touch/wheel scroll bleed-through on
+    // mobile that overflow alone sometimes misses.
+    //
+    // This re-runs on `dismissed` specifically so the cleanup below fires
+    // (and unlocks scroll) as soon as it flips true - this component keeps
+    // rendering null after that rather than unmounting, so a mount-only
+    // cleanup would never run and scroll would stay locked forever. The
+    // navigate-to-/summary path still unlocks correctly too, via the
+    // normal full-unmount cleanup Next.js triggers on route change.
+    if (dismissed) return;
+
     const scrollY = window.scrollY;
     const { style } = document.body;
     const prev = {
@@ -56,7 +64,7 @@ export function IntroChooser() {
       document.documentElement.style.overflow = "";
       window.scrollTo(0, scrollY);
     };
-  }, []);
+  }, [dismissed]);
 
   function enterFullPortfolio() {
     setFadingOut(true);
