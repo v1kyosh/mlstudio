@@ -55,8 +55,9 @@ export function LoadingScreen() {
 
   return (
     <div
+      id="loading-screen-root"
       aria-hidden="true"
-      className={`fixed inset-0 z-[100] transition-opacity duration-[350ms] ${
+      className={`fixed inset-0 z-[100] bg-black transition-opacity duration-[350ms] ${
         fadingOut ? "opacity-0" : "opacity-100"
       }`}
     >

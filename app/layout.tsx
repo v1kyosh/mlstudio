@@ -57,6 +57,19 @@ export default function RootLayout({
       lang="en"
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        {/* Guarantees the loading screen covers the page from the very
+            first paint, even if the main stylesheet is still loading -
+            an inline style tag is parsed before body content can render. */}
+        <style>{`
+          #loading-screen-root {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: #000;
+          }
+        `}</style>
+      </head>
       <body className="min-h-full flex flex-col">
         <CustomCursor />
         <SiteHeader />
