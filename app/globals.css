@@ -221,11 +221,3 @@
     opacity: 0.15;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .ls-anim {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
