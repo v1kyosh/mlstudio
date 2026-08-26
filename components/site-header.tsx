@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/logo";
 import Velaris from "@/components/ui/velaris";
 import { LangSwitcher } from "@/components/ui/lang-switcher";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useLocale } from "@/lib/i18n/context";
 import { nav } from "@/lib/i18n/dictionary";
 
@@ -55,11 +56,13 @@ export function SiteHeader() {
               </a>
             </li>
           ))}
-          <li>
+          <li className="flex items-center gap-3">
+            <ThemeToggle dark />
             <LangSwitcher dark />
           </li>
         </ul>
         <div className="flex items-center gap-3 sm:hidden">
+          <ThemeToggle dark />
           <LangSwitcher dark />
           <button
             type="button"

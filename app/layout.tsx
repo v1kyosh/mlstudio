@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { SITE_URL } from "@/lib/site";
 import { LocaleProvider } from "@/lib/i18n/context";
+import { ThemeProvider } from "@/lib/theme/context";
 import "./globals.css";
 
 const ChatWidget = dynamic(() =>
@@ -56,6 +57,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
@@ -70,16 +72,25 @@ export default function RootLayout({
             background: #000;
           }
         `}</style>
+        {/* Applies a stored light-mode preference before first paint, so
+            there's no flash of the default dark theme on reload. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(localStorage.getItem('theme')==='light')document.documentElement.classList.remove('dark')}catch(e){}`,
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col">
-        <LocaleProvider>
-          <CustomCursor />
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-          <ChatWidget />
-          <ScrollToTop />
-        </LocaleProvider>
+        <ThemeProvider>
+          <LocaleProvider>
+            <CustomCursor />
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+            <ChatWidget />
+            <ScrollToTop />
+          </LocaleProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

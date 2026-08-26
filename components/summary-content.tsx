@@ -58,7 +58,7 @@ export function SummaryContent() {
             href="/api/resume"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-white/85"
+            className="rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:opacity-85"
           >
             {t.downloadResume[locale]}
           </a>
