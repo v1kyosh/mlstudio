@@ -81,8 +81,14 @@
 @media (min-width: 640px) {
   .slideContent {
     left: 3rem;
-    right: 18rem;
+    right: 3rem;
     bottom: 4rem;
+  }
+}
+@media (min-width: 1024px) {
+  .slideContent {
+    /* leaves room for .slidesNavigation, which only shows at this width */
+    right: 18rem;
   }
 }
 
