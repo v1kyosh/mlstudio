@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { SITE_URL } from "@/lib/site";
+import { LocaleProvider } from "@/lib/i18n/context";
 import "./globals.css";
 
 const ChatWidget = dynamic(() =>
@@ -71,12 +72,14 @@ export default function RootLayout({
         `}</style>
       </head>
       <body className="min-h-full flex flex-col">
-        <CustomCursor />
-        <SiteHeader />
-        {children}
-        <SiteFooter />
-        <ChatWidget />
-        <ScrollToTop />
+        <LocaleProvider>
+          <CustomCursor />
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+          <ChatWidget />
+          <ScrollToTop />
+        </LocaleProvider>
       </body>
     </html>
   );

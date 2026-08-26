@@ -4,18 +4,22 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/logo";
 import Velaris from "@/components/ui/velaris";
-
-const NAV_LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#architecture", label: "Architecture" },
-  { href: "#ai", label: "Skills" },
-  { href: "#work", label: "Work" },
-  { href: "#contact", label: "Contact" },
-];
+import { LangSwitcher } from "@/components/ui/lang-switcher";
+import { useLocale } from "@/lib/i18n/context";
+import { nav } from "@/lib/i18n/dictionary";
 
 export function SiteHeader() {
+  const { locale } = useLocale();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const NAV_LINKS = [
+    { href: "#about", label: nav.about[locale] },
+    { href: "#architecture", label: nav.architecture[locale] },
+    { href: "#ai", label: nav.skills[locale] },
+    { href: "#work", label: nav.work[locale] },
+    { href: "#contact", label: nav.contact[locale] },
+  ];
 
   useEffect(() => {
     const onScroll = () =>
@@ -51,16 +55,26 @@ export function SiteHeader() {
               </a>
             </li>
           ))}
+          <li>
+            <LangSwitcher dark />
+          </li>
         </ul>
-        <button
-          type="button"
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
-          className="text-white sm:hidden"
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-3 sm:hidden">
+          <LangSwitcher dark />
+          <button
+            type="button"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={mobileOpen ? nav.closeMenu[locale] : nav.openMenu[locale]}
+            aria-expanded={mobileOpen}
+            className="text-white"
+          >
+            {mobileOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </button>
+        </div>
       </nav>
       {mobileOpen && (
         <ul className="relative z-10 flex flex-col gap-1 border-t border-white/10 bg-black/40 px-6 py-4 backdrop-blur-md sm:hidden">

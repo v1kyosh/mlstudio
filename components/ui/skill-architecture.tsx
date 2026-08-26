@@ -3,219 +3,136 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight, Folder, FileCode2 } from "lucide-react";
+import { useLocale } from "@/lib/i18n/context";
+import { architecture } from "@/lib/i18n/dictionary";
+import { architectureNotes } from "@/lib/i18n/content";
 
 interface ArchSubItem {
   name: string;
-  note: string;
 }
 
 interface ArchFile {
   name: string;
-  note: string;
   subitems: ArchSubItem[];
 }
 
 interface ArchFolder {
   name: string;
-  note: string;
   files: ArchFile[];
 }
 
 const ARCHITECTURE: ArchFolder[] = [
   {
     name: "strategy/",
-    note: "brand & go-to-market thinking",
     files: [
       {
         name: "brand-positioning.ts",
-        note: "defining who the brand is for and why it wins",
-        subitems: [
-          { name: "competitive-mapping", note: "sizing up category leaders and finding white space" },
-          { name: "value-proposition", note: "translating research into a message that sticks" },
-        ],
+        subitems: [{ name: "competitive-mapping" }, { name: "value-proposition" }],
       },
       {
         name: "go-to-market.ts",
-        note: "launch plans from concept to shelf",
-        subitems: [
-          { name: "launch-sequencing", note: "timing channels, retail, and press around one date" },
-          { name: "stakeholder-alignment", note: "briefing sales, ops, and partners before day one" },
-        ],
+        subitems: [{ name: "launch-sequencing" }, { name: "stakeholder-alignment" }],
       },
       {
         name: "budget-planning.ts",
-        note: "allocating spend across channels for ROI",
-        subitems: [
-          { name: "channel-mix", note: "splitting spend across paid, organic, and retail" },
-          { name: "forecast-tracking", note: "reconciling planned spend against actual return" },
-        ],
+        subitems: [{ name: "channel-mix" }, { name: "forecast-tracking" }],
       },
       {
         name: "market-research.ts",
-        note: "reading the category, competitors, and audience",
-        subitems: [
-          { name: "trend-scanning", note: "tracking category shifts before they hit mainstream" },
-          { name: "audience-interviews", note: "validating assumptions directly with real buyers" },
-        ],
+        subitems: [{ name: "trend-scanning" }, { name: "audience-interviews" }],
       },
     ],
   },
   {
     name: "brand-design/",
-    note: "identity, product, and motion",
     files: [
       {
         name: "identity-systems.ts",
-        note: "logos, guidelines, and visual language",
-        subitems: [
-          { name: "logo-systems", note: "building marks that scale from favicon to billboard" },
-          { name: "brand-guidelines", note: "documenting rules so the identity survives without me" },
-        ],
+        subitems: [{ name: "logo-systems" }, { name: "brand-guidelines" }],
       },
       {
         name: "packaging-design.ts",
-        note: "structural and graphic packaging design",
-        subitems: [
-          { name: "structural-design", note: "engineering the physical pack, not just the label" },
-          { name: "shelf-impact", note: "designing for standout at actual point of sale" },
-        ],
+        subitems: [{ name: "structural-design" }, { name: "shelf-impact" }],
       },
       {
         name: "product-design.ts",
-        note: "concept, prototyping, and 3D renders",
-        subitems: [
-          { name: "concept-sketching", note: "moving from brief to first viable form" },
-          { name: "3d-prototyping", note: "CAD models and renders before a unit is tooled" },
-        ],
+        subitems: [{ name: "concept-sketching" }, { name: "3d-prototyping" }],
       },
       {
         name: "motion-graphics.ts",
-        note: "video and animated brand assets",
-        subitems: [
-          { name: "social-cuts", note: "short-form video edited for feed and story formats" },
-          { name: "product-animation", note: "3D product spins and feature explainers" },
-        ],
+        subitems: [{ name: "social-cuts" }, { name: "product-animation" }],
       },
     ],
   },
   {
     name: "marketing/",
-    note: "campaigns that move product",
     files: [
       {
         name: "campaign-strategy.ts",
-        note: "360-degree campaigns across digital, social, and retail",
-        subitems: [
-          { name: "creative-briefs", note: "turning strategy into a brief a team can execute" },
-          { name: "channel-orchestration", note: "sequencing digital, social, and retail around one idea" },
-        ],
+        subitems: [{ name: "creative-briefs" }, { name: "channel-orchestration" }],
       },
       {
         name: "content-marketing.ts",
-        note: "organic content built to grow visibility",
-        subitems: [
-          { name: "editorial-calendar", note: "planning content around real search and social demand" },
-          { name: "copywriting", note: "writing for the channel, not just the brand" },
-        ],
+        subitems: [{ name: "editorial-calendar" }, { name: "copywriting" }],
       },
       {
         name: "technical-seo.ts",
-        note: "on-site SEO and search performance",
-        subitems: [
-          { name: "site-audits", note: "finding and fixing what's actually blocking rankings" },
-          { name: "keyword-mapping", note: "matching pages to the terms buyers actually search" },
-        ],
+        subitems: [{ name: "site-audits" }, { name: "keyword-mapping" }],
       },
       {
         name: "paid-media.ts",
-        note: "search, social, and shopping campaigns",
-        subitems: [
-          { name: "campaign-setup", note: "structuring accounts for clean, attributable data" },
-          { name: "budget-optimization", note: "reallocating spend toward what's actually converting" },
-        ],
+        subitems: [{ name: "campaign-setup" }, { name: "budget-optimization" }],
       },
       {
         name: "lifecycle-email.ts",
-        note: "retention and CRM automation",
-        subitems: [
-          { name: "flow-design", note: "building the automated sequences that run without me" },
-          { name: "segmentation", note: "targeting messages by real behavior, not guesswork" },
-        ],
+        subitems: [{ name: "flow-design" }, { name: "segmentation" }],
       },
     ],
   },
   {
     name: "ecommerce/",
-    note: "the mechanics that convert",
     files: [
       {
         name: "platform-ops.ts",
-        note: "managing the storefront and product catalog",
-        subitems: [
-          { name: "catalog-management", note: "keeping product data clean across every listing" },
-          { name: "platform-admin", note: "running the storefront day to day" },
-        ],
+        subitems: [{ name: "catalog-management" }, { name: "platform-admin" }],
       },
       {
         name: "conversion-funnels.ts",
-        note: "landing pages and checkout optimization",
         subitems: [
-          { name: "landing-page-design", note: "building pages built to convert, not just look good" },
-          { name: "checkout-optimization", note: "removing friction between cart and paid order" },
+          { name: "landing-page-design" },
+          { name: "checkout-optimization" },
         ],
       },
       {
         name: "analytics-reporting.ts",
-        note: "dashboards and performance tracking",
-        subitems: [
-          { name: "dashboarding", note: "turning raw data into a report leadership actually reads" },
-          { name: "performance-reviews", note: "tying results back to what actually moved them" },
-        ],
+        subitems: [{ name: "dashboarding" }, { name: "performance-reviews" }],
       },
     ],
   },
   {
     name: "ai-ops/",
-    note: "building instead of licensing",
     files: [
       {
         name: "workflow-automation.ts",
-        note: "automating repetitive work across departments",
-        subitems: [
-          { name: "process-mapping", note: "finding the repetitive work worth automating" },
-          { name: "automation-builds", note: "shipping the automation, not just the plan" },
-        ],
+        subitems: [{ name: "process-mapping" }, { name: "automation-builds" }],
       },
       {
         name: "pim.ts",
-        note: "in-house Product Information Management platform",
-        subitems: [
-          { name: "data-modeling", note: "structuring product data so every channel pulls from one source" },
-          { name: "catalog-sync", note: "keeping listings consistent across every sales channel" },
-        ],
+        subitems: [{ name: "data-modeling" }, { name: "catalog-sync" }],
       },
       {
         name: "dam.ts",
-        note: "in-house Digital Asset Management platform",
-        subitems: [
-          { name: "asset-pipelines", note: "organizing and versioning creative at scale" },
-          { name: "access-control", note: "making the right asset findable by the right team" },
-        ],
+        subitems: [{ name: "asset-pipelines" }, { name: "access-control" }],
       },
       {
         name: "srm.ts",
-        note: "in-house Supplier Relationship Management tool",
-        subitems: [
-          { name: "vendor-tracking", note: "centralizing supplier data and communication" },
-          { name: "order-visibility", note: "tracking POs and lead times without a spreadsheet" },
-        ],
+        subitems: [{ name: "vendor-tracking" }, { name: "order-visibility" }],
       },
       {
         name: "ai-assisted-dev.ts",
-        note: "shipping internal tools with Claude, React, and Node.js",
         subitems: [
-          { name: "prompt-engineering", note: "directing AI tools to ship production-ready code" },
-          { name: "full-stack-shipping", note: "React front end, Node back end, shipped end to end" },
+          { name: "prompt-engineering" },
+          { name: "full-stack-shipping" },
         ],
       },
     ],
@@ -223,6 +140,7 @@ const ARCHITECTURE: ArchFolder[] = [
 ];
 
 export function SkillArchitecture() {
+  const { locale } = useLocale();
   const [openFolders, setOpenFolders] = useState<string[]>(["strategy/"]);
   const [pulseIndex, setPulseIndex] = useState<number | null>(null);
 
@@ -245,13 +163,10 @@ export function SkillArchitecture() {
     <div className="rounded-2xl border border-border bg-card/50 p-6 font-mono text-sm sm:overflow-x-auto sm:p-8">
       <div className="mb-8 max-w-2xl">
         <div className="text-xs text-muted-foreground/50 sm:whitespace-nowrap">
-          // marcos-leite/full-stack-marketer/README.md
+          {architecture.readmeComment[locale]}
         </div>
         <p className="mt-3 text-sm leading-relaxed text-foreground/70">
-          Brand, product, and growth usually sit in three separate hires
-          who don&apos;t talk to each other. I run all three as one system
-          - so nothing gets lost in the handoff, and you&apos;re not
-          paying the coordination tax between departments.
+          {architecture.readmeText[locale]}
         </p>
       </div>
       <div className="flex flex-col gap-2">
@@ -279,7 +194,7 @@ export function SkillArchitecture() {
                 />
                 <span className="font-semibold text-foreground">{folder.name}</span>
                 <span className="hidden text-muted-foreground/50 sm:inline">
-                  // {folder.note}
+                  // {architectureNotes.folders[folder.name as keyof typeof architectureNotes.folders][locale]}
                 </span>
               </button>
               <AnimatePresence initial={false}>
@@ -298,7 +213,7 @@ export function SkillArchitecture() {
                             <FileCode2 className="relative top-0.5 h-3.5 w-3.5 flex-none text-muted-foreground/60" />
                             <span className="text-foreground/90">{file.name}</span>
                             <span className="hidden text-muted-foreground/50 sm:inline">
-                              // {file.note}
+                              // {architectureNotes.files[file.name as keyof typeof architectureNotes.files][locale]}
                             </span>
                           </div>
                           <div className="mt-1 flex flex-col gap-1 border-l border-border/60 pl-5">
@@ -307,7 +222,7 @@ export function SkillArchitecture() {
                                 <span className="text-muted-foreground/40">-</span>
                                 <span className="text-foreground/60">{sub.name}</span>
                                 <span className="hidden text-muted-foreground/40 sm:inline">
-                                  // {sub.note}
+                                  // {architectureNotes.subitems[sub.name as keyof typeof architectureNotes.subitems][locale]}
                                 </span>
                               </div>
                             ))}

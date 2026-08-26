@@ -6,10 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { PROFILE } from "@/lib/resume-data";
+import { useLocale } from "@/lib/i18n/context";
+import { contactForm, footer } from "@/lib/i18n/dictionary";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
 export function ContactForm() {
+  const { locale } = useLocale();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -43,7 +46,7 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
         <Label htmlFor="name" className="text-white/70">
-          Name
+          {contactForm.name[locale]}
         </Label>
         <Input
           id="name"
@@ -51,13 +54,13 @@ export function ContactForm() {
           maxLength={200}
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Your name"
+          placeholder={contactForm.namePlaceholder[locale]}
           className="border-white/20 bg-white/5 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-white/20"
         />
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="email" className="text-white/70">
-          Email
+          {contactForm.email[locale]}
         </Label>
         <Input
           id="email"
@@ -65,13 +68,13 @@ export function ContactForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@company.com"
+          placeholder={contactForm.emailPlaceholder[locale]}
           className="border-white/20 bg-white/5 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-white/20"
         />
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="message" className="text-white/70">
-          Message
+          {contactForm.message[locale]}
         </Label>
         <Textarea
           id="message"
@@ -80,14 +83,14 @@ export function ContactForm() {
           rows={5}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="What are you looking to build?"
+          placeholder={contactForm.messagePlaceholder[locale]}
           className="border-white/20 bg-white/5 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-white/20"
         />
       </div>
       <p className="text-xs text-white/50">
-        By submitting this form, you agree to the{" "}
+        {contactForm.consentPrefix[locale]}{" "}
         <a href="/privacy" className="underline hover:text-white/70">
-          Privacy &amp; Cookies Policy
+          {footer.privacy[locale]}
         </a>
         .
       </p>
@@ -96,16 +99,15 @@ export function ContactForm() {
         disabled={status === "sending"}
         className="mt-2 w-fit rounded-full bg-white px-6 text-black hover:bg-white/85 disabled:opacity-60"
       >
-        {status === "sending" ? "Sending..." : "Send Message"}
+        {status === "sending" ? contactForm.sending[locale] : contactForm.send[locale]}
       </Button>
       {status === "sent" && (
-        <p className="text-sm text-green-400">
-          Message sent - I&apos;ll get back to you soon.
-        </p>
+        <p className="text-sm text-green-400">{contactForm.sent[locale]}</p>
       )}
       {status === "error" && (
         <p className="text-sm text-white/70">
-          {errorMessage || "Something went wrong."} Email me directly at{" "}
+          {errorMessage || contactForm.errorGeneric[locale]}{" "}
+          {contactForm.errorEmailDirect[locale]}{" "}
           <a href={`mailto:${PROFILE.email}`} className="underline">
             {PROFILE.email}
           </a>

@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
 import { PROFILE } from "@/lib/resume-data";
+import { useLocale } from "@/lib/i18n/context";
+import { chat } from "@/lib/i18n/dictionary";
+import type { Locale } from "@/lib/i18n/locales";
 
 interface Message {
   role: "bot" | "user";
@@ -11,82 +14,85 @@ interface Message {
 
 interface FaqEntry {
   keywords: string[];
-  answer: string;
+  answer: (locale: Locale) => string;
+}
+
+function fill(template: string, vars: Record<string, string>): string {
+  return Object.entries(vars).reduce(
+    (acc, [key, value]) => acc.replaceAll(`{${key}}`, value),
+    template,
+  );
 }
 
 const FAQ: FaqEntry[] = [
   {
-    keywords: ["hi", "hello", "hey", "ola", "olá", "yo"],
-    answer:
-      "Hey! Ask me about Marcos's work, skills, experience, or how to get in touch.",
+    keywords: ["hi", "hello", "hey", "ola", "olá", "yo", "hola"],
+    answer: (l) => chat.faqGreeting[l],
   },
   {
-    keywords: ["who", "about you", "about marcos", "yourself"],
-    answer:
-      "Marcos Leite is a Full Stack Marketeer - he runs brand, product, and growth as one system instead of three separate hires. 13+ years across brand identity, product design, and AI-driven growth. Check the About section above for the full story.",
+    keywords: ["who", "about you", "about marcos", "yourself", "quem", "quién"],
+    answer: (l) => chat.faqWho[l],
   },
   {
-    keywords: ["service", "offer", "what do you do", "what does he do", "help with"],
-    answer:
-      "He covers brand strategy & creative direction, product design, ecommerce & CRO, technical SEO, lifecycle email, and AI-native internal tooling - building software with Claude and AI agents instead of buying SaaS. See the Full Stack Architecture section for the full breakdown.",
+    keywords: [
+      "service",
+      "offer",
+      "what do you do",
+      "what does he do",
+      "help with",
+      "serviço",
+      "servicio",
+    ],
+    answer: (l) => chat.faqServices[l],
   },
   {
-    keywords: ["contact", "hire", "email", "reach", "touch", "work with"],
-    answer: `You can reach Marcos directly at ${PROFILE.email}, via LinkedIn, or the contact form at the bottom of this page.`,
+    keywords: ["contact", "hire", "email", "reach", "touch", "work with", "contacto"],
+    answer: (l) => fill(chat.faqContact[l], { email: PROFILE.email }),
   },
   {
-    keywords: ["resume", "cv", "download"],
-    answer: "You can download his resume as a PDF from the \"Download Resume\" button at the top of the page, or via /api/resume.",
+    keywords: ["resume", "cv", "download", "currículo", "currículum"],
+    answer: (l) => chat.faqResume[l],
   },
   {
-    keywords: ["experience", "years", "how long"],
-    answer:
-      "13+ years of experience - from hands-on graphic and editorial design to leading brand, marketing, and product functions end-to-end.",
+    keywords: ["experience", "years", "how long", "experiência", "experiencia"],
+    answer: (l) => chat.faqExperience[l],
   },
   {
-    keywords: ["work", "portfolio", "project", "case stud"],
-    answer:
-      "Scroll down to Selected Work for real projects - from an in-house AI platform suite to trade-show stands and product design for Yamaha Racing.",
+    keywords: ["work", "portfolio", "project", "case stud", "trabalho", "proyecto"],
+    answer: (l) => chat.faqWork[l],
   },
   {
-    keywords: ["ai", "claude", "tool", "tech stack", "agent"],
-    answer:
-      "He builds AI-native internal tooling using Claude and AI coding agents - PIM, DAM, SRM, ticketing, and repair systems built in-house instead of licensed SaaS. See the AI Toolkit section.",
+    keywords: ["ai", "claude", "tool", "tech stack", "agent", "ia", "ferramenta"],
+    answer: (l) => chat.faqAi[l],
   },
   {
-    keywords: ["price", "cost", "rate", "budget"],
-    answer: `Rates depend on scope - the fastest way to get a real answer is to reach out directly at ${PROFILE.email}.`,
+    keywords: ["price", "cost", "rate", "budget", "preço", "precio"],
+    answer: (l) => fill(chat.faqPrice[l], { email: PROFILE.email }),
   },
   {
-    keywords: ["language", "speak"],
-    answer: `He speaks ${PROFILE.languages}.`,
+    keywords: ["language", "speak", "idioma", "fala", "habla"],
+    answer: (l) => fill(chat.faqLanguage[l], { languages: PROFILE.languages }),
   },
   {
-    keywords: ["flama", "current", "company", "job"],
-    answer:
-      "He's currently Brand & Creative Manager at FLAMA S.A., leading brand, product, and the AI-native growth engine behind it.",
+    keywords: ["flama", "current", "company", "job", "empresa"],
+    answer: (l) => chat.faqCompany[l],
   },
 ];
 
-const FALLBACK_ANSWER = `I don't have a canned answer for that - the fastest way to get a real answer is to email Marcos directly at ${PROFILE.email} or use the contact form below.`;
-
-const GREETING: Message = {
-  role: "bot",
-  text: "Hi, I'm Marcos's assistant. Ask me about his work, skills, or how to get in touch.",
-};
-
-const TLDR_ANSWER =
-  "13+ years running brand, product, and growth as one system - not three separate hires. Most recently: built an in-house AI platform suite (PIM, DAM, SRM, repairs, ticketing) with Claude and AI agents instead of buying SaaS, saving an estimated €370k in setup and €67k/year. Hire him if you want someone who can set the strategy, design the brand, and ship the software behind it - without three handoffs in between.";
-
-function findAnswer(input: string): string {
+function findAnswer(input: string, locale: Locale): string {
   const q = input.toLowerCase();
   const hit = FAQ.find((entry) => entry.keywords.some((k) => q.includes(k)));
-  return hit ? hit.answer : FALLBACK_ANSWER;
+  return hit
+    ? hit.answer(locale)
+    : fill(chat.fallback[locale], { email: PROFILE.email });
 }
 
 export function ChatWidget() {
+  const { locale } = useLocale();
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([GREETING]);
+  const [messages, setMessages] = useState<Message[]>([
+    { role: "bot", text: chat.greeting[locale] },
+  ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
@@ -108,7 +114,7 @@ export function ChatWidget() {
   }
 
   function handleTldr() {
-    ask("TL;DR", TLDR_ANSWER);
+    ask("TL;DR", chat.tldrAnswer[locale]);
   }
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -116,7 +122,7 @@ export function ChatWidget() {
     const question = input.trim();
     if (!question) return;
     setInput("");
-    ask(question, findAnswer(question));
+    ask(question, findAnswer(question, locale));
   }
 
   return (
@@ -126,16 +132,16 @@ export function ChatWidget() {
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <div>
               <div className="text-sm font-medium text-foreground">
-                Marcos's Assistant
+                {chat.assistantName[locale]}
               </div>
               <div className="text-xs text-muted-foreground">
-                Usually replies instantly
+                {chat.repliesInstantly[locale]}
               </div>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              aria-label="Close chat"
+              aria-label={chat.closeChat[locale]}
               className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
               <X className="h-4 w-4" />
@@ -177,7 +183,7 @@ export function ChatWidget() {
                 onClick={handleTldr}
                 className="rounded-full border border-green-400/40 px-3.5 py-1.5 text-xs font-medium text-green-400 transition-colors hover:bg-green-400/10"
               >
-                TL;DR - too lazy to read?
+                {chat.tldrButton[locale]}
               </button>
             )}
           </div>
@@ -190,12 +196,12 @@ export function ChatWidget() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask a question..."
+              placeholder={chat.askQuestion[locale]}
               className="flex-1 rounded-full border border-border bg-background px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-green-400"
             />
             <button
               type="submit"
-              aria-label="Send"
+              aria-label={chat.send[locale]}
               className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-green-400 text-black transition-colors hover:bg-green-400/85 disabled:opacity-50"
               disabled={!input.trim()}
             >
@@ -208,8 +214,8 @@ export function ChatWidget() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close chat" : "Open chat"}
-        data-cursor={open ? undefined : "Ask a question"}
+        aria-label={open ? chat.closeChat[locale] : chat.openChat[locale]}
+        data-cursor={open ? undefined : chat.askQuestionCursor[locale]}
         className="flex h-14 w-14 items-center justify-center rounded-full bg-green-400 text-black shadow-lg transition-transform hover:scale-105"
       >
         {open ? (

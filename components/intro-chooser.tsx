@@ -7,10 +7,13 @@ import {
   LOADING_DURATION_MS,
   LOADING_FADE_OUT_MS,
 } from "@/components/loading-screen";
+import { useLocale } from "@/lib/i18n/context";
+import { introChooser } from "@/lib/i18n/dictionary";
 
 const GRAYSCALE_COLORS = ["#e5e5e5", "#a3a3a3", "#525252", "#000000"];
 
 export function IntroChooser() {
+  const { locale } = useLocale();
   const router = useRouter();
   const [ready, setReady] = useState(false);
   const [dismissed, setDismissed] = useState(false);
@@ -94,17 +97,16 @@ export function IntroChooser() {
             className="group flex h-full w-full flex-col items-center justify-center gap-3 px-8 py-16 text-center transition-colors hover:bg-white/5"
           >
             <span className="text-xs font-medium uppercase tracking-[0.2em] text-white/50">
-              Short on time?
+              {introChooser.shortOnTime[locale]}
             </span>
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Quick Summary
+              {introChooser.quickSummary[locale]}
             </h2>
             <p className="max-w-xs text-sm text-white/70">
-              The 30-second version - who I am, what I do, and the numbers
-              that matter.
+              {introChooser.quickSummaryDesc[locale]}
             </p>
             <span className="mt-2 text-sm font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
-              Open Quick Summary &rarr;
+              {introChooser.openQuickSummary[locale]}
             </span>
           </button>
         </Velaris>
@@ -119,17 +121,16 @@ export function IntroChooser() {
             className="group flex h-full w-full flex-col items-center justify-center gap-3 px-8 py-16 text-center transition-colors hover:bg-white/5"
           >
             <span className="text-xs font-medium uppercase tracking-[0.2em] text-white/50">
-              Got a few minutes?
+              {introChooser.fewMinutes[locale]}
             </span>
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Full Portfolio
+              {introChooser.fullPortfolio[locale]}
             </h2>
             <p className="max-w-xs text-sm text-white/70">
-              The complete story - work samples, the AI-native systems I&apos;ve
-              built, and the full architecture behind it.
+              {introChooser.fullPortfolioDesc[locale]}
             </p>
             <span className="mt-2 text-sm font-medium text-green-400 opacity-0 transition-opacity group-hover:opacity-100">
-              Enter Full Portfolio &rarr;
+              {introChooser.enterFullPortfolio[locale]}
             </span>
           </button>
         </Velaris>
